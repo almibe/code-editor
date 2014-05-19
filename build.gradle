@@ -4,10 +4,16 @@ apply plugin: 'maven'
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
+version = '0.0.1-SNAPSHOT'
+group = 'org.almibe'
+uploadTask.repositories.mavenDeployer.pom.artifactId = 'codearea'
+archiveTask.baseName = 'codearea'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
+    testCompile group: 'org.loadui', name: 'testFx', version: '3.1.2'
 }
