@@ -6,8 +6,6 @@ sourceCompatibility = '1.8'
 
 version = '0.0.1-SNAPSHOT'
 group = 'org.almibe'
-uploadTask.repositories.mavenDeployer.pom.artifactId = 'codearea'
-archiveTask.baseName = 'codearea'
 
 repositories {
     mavenCentral()
