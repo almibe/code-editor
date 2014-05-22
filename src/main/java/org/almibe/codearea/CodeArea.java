@@ -5,8 +5,6 @@ import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
 public class CodeArea {
-    private JSObject editor;
-    private JSObject session;
     private WebView webView;
     private WebEngine webEngine;
     
@@ -16,12 +14,9 @@ public class CodeArea {
     
     public void init() {
         final String html = CodeArea.class.getResource("editor.html").toExternalForm();
-        final java.net.URI uri = java.nio.file.Paths.get(html).toAbsolutePath().toUri();
-        
         webView = new WebView();
         webEngine = webView.getEngine();
         webEngine.load(html);
-        
     }
     
     public WebView getWebView() {
@@ -29,50 +24,34 @@ public class CodeArea {
     }
     
     public JSObject fetchEditor() {
-        if(editor == null) {
-            Object temp = webEngine.executeScript("editor;");
-            if(temp instanceof JSObject) {
-                editor = (JSObject) temp;
-            }
+        Object editor = webEngine.executeScript("editor;");
+        if(editor instanceof JSObject) {
+            return (JSObject) editor;
         }
-        return editor;
+        throw new IllegalStateException("CodeArea not loaded.");
     }
     
     public JSObject fetchSession() {
-        if(session == null) {
-            Object temp = webEngine.executeScript("editor.session;");
-            if(temp instanceof JSObject) {
-                session = (JSObject) temp;
-            }
+        Object temp = webEngine.executeScript("editor.session;");
+        if(temp instanceof JSObject) {
+            return (JSObject) temp;
         }
-        return session;
+        throw new IllegalStateException("CodeArea not loaded.");
     }
     
     public void setValue(String value) {
-        if(fetchEditor() != null) {
-            editor.call("setValue", value);
-        }
+        fetchEditor().call("setValue", value);
     }
     
     public String getValue() {
-        if(fetchEditor() != null) {
-            return (String) editor.call("getValue"); //TODO add check
-        } else {
-            return null;
-        }
+        return (String) fetchEditor().call("getValue"); //TODO add check
     }
     
     public void setMode(String mode) {
-        if(fetchSession() != null) {
-            session.call("setMode", mode);
-        }
+        fetchSession().call("setMode", mode);
     }
     
     public String getMode() {
-        if(fetchSession() != null) {
-            return (String) session.eval("this.getMode().$id;");
-        } else {
-            return null;
-        }
+        return (String) fetchSession().eval("this.getMode().$id;");
     }
 }
