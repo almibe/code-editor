@@ -1,5 +1,10 @@
 package org.almibe.codearea;
 
+import java.util.ArrayList;
+import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
@@ -7,16 +12,35 @@ import netscape.javascript.JSObject;
 public class CodeArea {
     private WebView webView;
     private WebEngine webEngine;
+    private List<CodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
     
     public CodeArea() {
         super();
+        webView = new WebView();        
     }
     
     public void init() {
         final String html = CodeArea.class.getResource("editor.html").toExternalForm();
-        webView = new WebView();
         webEngine = webView.getEngine();
-        webEngine.load(html);
+        webEngine.load(html);                
+        webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
+            @Override
+            public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
+                if(newValue == Worker.State.SUCCEEDED) {
+                   fireIntializationEvents();
+                }
+            }
+        });
+    }
+    
+    public void addInitializationListener(CodeArea.CodeAreaInitializerListener listener) {
+        initializerListeners.add(listener);
+    }
+    
+    private void fireIntializationEvents() {
+        for(CodeArea.CodeAreaInitializerListener listener : initializerListeners) {
+            listener.onInitialized();
+        }
     }
     
     public WebView getWebView() {
@@ -54,4 +78,9 @@ public class CodeArea {
     public String getMode() {
         return (String) fetchSession().eval("this.getMode().$id;");
     }
+    
+    public interface CodeAreaInitializerListener {
+        public void onInitialized();
+    }
+
 }

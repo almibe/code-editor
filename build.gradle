@@ -13,5 +13,5 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
-    testCompile group: 'org.loadui', name: 'testFx', version: '3.1.2'
+    //testCompile group: 'org.loadui', name: 'testFx', version: '3.1.2'
 }
