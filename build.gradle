@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.dm.gradle:bundle:0.2'
+    }
+}
+
+apply plugin: 'bundle'
 apply plugin: 'java'
 apply plugin: 'maven'
 
@@ -14,4 +24,9 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
     //testCompile group: 'org.loadui', name: 'testFx', version: '3.1.2'
+}
+
+bundle {
+    instruction 'Export-Package', 'org.almibe.codearea'
+    instruction 'Private-Package', '*'//;-split-package:=merge-first'
 }
