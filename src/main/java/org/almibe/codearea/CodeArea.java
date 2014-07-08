@@ -20,7 +20,7 @@ public class CodeArea {
     }
     
     public void init() {
-        final String html = CodeArea.class.getResource("editor.html").toExternalForm();
+        final String html = CodeArea.class.getResource("html/editor.html").toExternalForm();
         webEngine = webView.getEngine();
         webEngine.load(html);                
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
