@@ -10,18 +10,18 @@ import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
 public class CodeArea {
-    private WebView webView;
-    private WebEngine webEngine;
-    private List<CodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
+    private final WebView webView;
+    private final WebEngine webEngine;
+    private final List<CodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
     
     public CodeArea() {
         super();
         webView = new WebView();        
+        webEngine = webView.getEngine();
     }
     
     public void init() {
         final String html = CodeArea.class.getResource("html/editor.html").toExternalForm();
-        webEngine = webView.getEngine();
         webEngine.load(html);                
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
             @Override
