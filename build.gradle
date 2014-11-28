@@ -28,5 +28,5 @@ dependencies {
 
 bundle {
     instruction 'Export-Package', 'org.almibe.codearea'
-    instruction 'Private-Package', '*'//;-split-package:=merge-first'
+    instruction 'Private-Package', '*'
 }
