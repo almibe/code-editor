@@ -9,19 +9,18 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
-public class CodeArea {
+public class AceCodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
-    private final List<CodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
+    private final List<AceCodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
     
-    public CodeArea() {
-        super();
+    public AceCodeArea() {
         webView = new WebView();        
         webEngine = webView.getEngine();
     }
     
     public void init() {
-        final String html = CodeArea.class.getResource("html/editor.html").toExternalForm();
+        final String html = AceCodeArea.class.getResource("html/editor.html").toExternalForm();
         webEngine.load(html);                
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
             @Override
@@ -33,12 +32,12 @@ public class CodeArea {
         });
     }
     
-    public void addInitializationListener(CodeArea.CodeAreaInitializerListener listener) {
+    public void addInitializationListener(AceCodeArea.CodeAreaInitializerListener listener) {
         initializerListeners.add(listener);
     }
     
     private void fireIntializationEvents() {
-        for(CodeArea.CodeAreaInitializerListener listener : initializerListeners) {
+        for(AceCodeArea.CodeAreaInitializerListener listener : initializerListeners) {
             listener.onInitialized();
         }
     }
