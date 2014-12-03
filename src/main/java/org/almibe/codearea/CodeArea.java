@@ -5,7 +5,13 @@ import javafx.beans.property.StringProperty;
 
 public interface CodeArea {
     StringProperty contentProperty();
-    BooleanProperty readOnly();
+    BooleanProperty readOnlyProperty();
     StringProperty modeProperty();
     StringProperty themeProperty();
+    void init();
+    void addInitializationListener(InitializerListener listener);
+
+    public interface InitializerListener {
+        void onInitialized();
+    }
 }

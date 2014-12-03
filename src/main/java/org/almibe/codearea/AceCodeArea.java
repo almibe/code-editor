@@ -8,6 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import javafx.scene.Node;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
@@ -15,13 +16,14 @@ import netscape.javascript.JSObject;
 public class AceCodeArea implements CodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
-    private final List<AceCodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
+    private final List<CodeArea.InitializerListener> initializerListeners = new ArrayList<>();
     
     public AceCodeArea() {
         webView = new WebView();        
         webEngine = webView.getEngine();
     }
-    
+
+    @Override
     public void init() {
         final String html = AceCodeArea.class.getResource("html/editor.html").toExternalForm();
         webEngine.load(html);                
@@ -34,18 +36,19 @@ public class AceCodeArea implements CodeArea {
             }
         });
     }
-    
-    public void addInitializationListener(AceCodeArea.CodeAreaInitializerListener listener) {
+
+    @Override
+    public void addInitializationListener(CodeArea.InitializerListener listener) {
         initializerListeners.add(listener);
     }
     
     private void fireIntializationEvents() {
-        for(AceCodeArea.CodeAreaInitializerListener listener : initializerListeners) {
+        for(CodeArea.InitializerListener listener : initializerListeners) {
             listener.onInitialized();
         }
     }
     
-    public WebView getWebView() {
+    public Node getNode() {
         return this.webView;
     }
     
@@ -87,7 +90,7 @@ public class AceCodeArea implements CodeArea {
     }
 
     @Override
-    public BooleanProperty readOnly() {
+    public BooleanProperty readOnlyProperty() {
         throw new UnsupportedOperationException("readOnly is not implemented");
     }
 
@@ -100,9 +103,4 @@ public class AceCodeArea implements CodeArea {
     public StringProperty themeProperty() {
         throw new UnsupportedOperationException("themeProperty is not implemented");
     }
-
-    public interface CodeAreaInitializerListener {
-        public void onInitialized();
-    }
-
 }
