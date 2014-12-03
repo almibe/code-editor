@@ -8,7 +8,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
@@ -47,8 +47,9 @@ public class AceCodeArea implements CodeArea {
             listener.onInitialized();
         }
     }
-    
-    public Node getNode() {
+
+    @Override
+    public Parent getWidget() {
         return this.webView;
     }
     
