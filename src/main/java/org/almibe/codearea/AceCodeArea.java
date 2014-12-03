@@ -2,6 +2,9 @@ package org.almibe.codearea;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -9,7 +12,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
-public class AceCodeArea {
+public class AceCodeArea implements CodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
     private final List<AceCodeArea.CodeAreaInitializerListener> initializerListeners = new ArrayList<>();
@@ -77,7 +80,27 @@ public class AceCodeArea {
     public String getMode() {
         return (String) fetchSession().eval("this.getMode().$id;");
     }
-    
+
+    @Override
+    public StringProperty contentProperty() {
+        throw new UnsupportedOperationException("contentProperty is not implemented");
+    }
+
+    @Override
+    public BooleanProperty readOnly() {
+        throw new UnsupportedOperationException("readOnly is not implemented");
+    }
+
+    @Override
+    public StringProperty modeProperty() {
+        throw new UnsupportedOperationException("modeProperty is not implemented");
+    }
+
+    @Override
+    public StringProperty themeProperty() {
+        throw new UnsupportedOperationException("themeProperty is not implemented");
+    }
+
     public interface CodeAreaInitializerListener {
         public void onInitialized();
     }
