@@ -13,6 +13,7 @@ public class Demo extends Application {
         CodeArea codeArea = new AceCodeArea();
         Scene scene = new Scene(codeArea.getWidget());
         primaryStage.setScene(scene);
+        codeArea.init();
         primaryStage.show();
     }
 
