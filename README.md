@@ -1,4 +1,4 @@
 CodeArea
 ========
 
-JavaFX wrapper for the Ace Editor
+JavaFX wrapper for CodeMirror
