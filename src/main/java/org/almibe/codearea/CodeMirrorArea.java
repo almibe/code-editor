@@ -42,12 +42,12 @@ public class CodeMirrorArea implements CodeArea {
 
     @Override
     public boolean isReadOnly() {
-        return false;
+        return (Boolean) fetchEditor().call("getOption","readOnly");
     }
 
     @Override
     public void setReadOnly(boolean readOnly) {
-
+        fetchEditor().call("setOption", "readOnly", readOnly);
     }
 
     public JSObject fetchEditor() {
