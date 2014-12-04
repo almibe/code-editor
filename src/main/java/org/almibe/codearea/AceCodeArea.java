@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,7 +18,7 @@ import netscape.javascript.JSObject;
 public class AceCodeArea implements CodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
-    private final List<CodeArea.InitializerListener> initializerListeners = new ArrayList<>();
+    private final ReadOnlyBooleanWrapper isInitializedProperty = new ReadOnlyBooleanWrapper(false);
     
     public AceCodeArea() {
         webView = new WebView();        
@@ -25,27 +27,23 @@ public class AceCodeArea implements CodeArea {
 
     @Override
     public void init() {
-        final String html = AceCodeArea.class.getResource("html/editor.html").toExternalForm();
+        //final String html = AceCodeArea.class.getResource("html/editor.html").toExternalForm();
+        //final String html = AceCodeArea.class.getResource("html/codemirror-4.8/mode/groovy/index.html").toExternalForm();
+        final String html = AceCodeArea.class.getResource("html/codemirror-4.8/demo/vim.html").toExternalForm();
         webEngine.load(html);                
         webEngine.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
             @Override
             public void changed(ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) {
                 if(newValue == Worker.State.SUCCEEDED) {
-                   fireIntializationEvents();
+                   isInitializedProperty.setValue(true);
                 }
             }
         });
     }
 
     @Override
-    public void addInitializationListener(CodeArea.InitializerListener listener) {
-        initializerListeners.add(listener);
-    }
-    
-    private void fireIntializationEvents() {
-        for(CodeArea.InitializerListener listener : initializerListeners) {
-            listener.onInitialized();
-        }
+    public ReadOnlyBooleanProperty isInitializedProperty() {
+        return isInitializedProperty.getReadOnlyProperty();
     }
 
     @Override
