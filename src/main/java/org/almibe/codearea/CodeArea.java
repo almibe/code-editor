@@ -7,10 +7,13 @@ import javafx.scene.Parent;
 
 public interface CodeArea {
     StringProperty contentProperty();
-    BooleanProperty readOnlyProperty();
-    StringProperty modeProperty();
-    StringProperty themeProperty();
     ReadOnlyBooleanProperty isInitializedProperty();
     void init();
     Parent getWidget();
+    boolean isReadOnly();
+    void setReadOnly(boolean readOnly);
+    String getMode();
+    void setMode(String mode);
+    String getTheme();
+    void setTheme(String theme);
 }

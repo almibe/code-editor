@@ -1,6 +1,5 @@
 package org.almibe.codearea;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.StringProperty;
@@ -40,56 +39,47 @@ public class CodeMirrorArea implements CodeArea {
     public Parent getWidget() {
         return this.webView;
     }
-    
+
+    @Override
+    public boolean isReadOnly() {
+        return false;
+    }
+
+    @Override
+    public void setReadOnly(boolean readOnly) {
+
+    }
+
     public JSObject fetchEditor() {
-        Object editor = webEngine.executeScript("editor;");
+        Object editor = webEngine.executeScript("codeMirror;");
         if(editor instanceof JSObject) {
             return (JSObject) editor;
         }
-        throw new IllegalStateException("CodeArea not loaded.");
+        throw new IllegalStateException("CodeMirror not loaded.");
     }
-    
-    public JSObject fetchSession() {
-        Object temp = webEngine.executeScript("editor.session;");
-        if(temp instanceof JSObject) {
-            return (JSObject) temp;
-        }
-        throw new IllegalStateException("CodeArea not loaded.");
-    }
-    
-    public void setValue(String value) {
-        fetchEditor().call("setValue", value);
-    }
-    
-    public String getValue() {
-        return (String) fetchEditor().call("getValue"); //TODO add check
-    }
-    
+
+    @Override
     public void setMode(String mode) {
-        fetchSession().call("setMode", mode);
+        throw new UnsupportedOperationException();
     }
-    
+
+    @Override
+    public String getTheme() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setTheme(String theme) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public String getMode() {
-        return (String) fetchSession().eval("this.getMode().$id;");
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public StringProperty contentProperty() {
         throw new UnsupportedOperationException("contentProperty is not implemented");
-    }
-
-    @Override
-    public BooleanProperty readOnlyProperty() {
-        throw new UnsupportedOperationException("readOnly is not implemented");
-    }
-
-    @Override
-    public StringProperty modeProperty() {
-        throw new UnsupportedOperationException("modeProperty is not implemented");
-    }
-
-    @Override
-    public StringProperty themeProperty() {
-        throw new UnsupportedOperationException("themeProperty is not implemented");
     }
 }
