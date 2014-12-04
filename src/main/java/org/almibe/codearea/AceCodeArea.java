@@ -22,10 +22,8 @@ public class AceCodeArea implements CodeArea {
 
     @Override
     public void init() {
-        //final String html = AceCodeArea.class.getResource("html/editor.html").toExternalForm();
-        //final String html = AceCodeArea.class.getResource("html/codemirror-4.8/mode/groovy/index.html").toExternalForm();
-        final String html = AceCodeArea.class.getResource("html/codemirror-4.8/demo/vim.html").toExternalForm();
-        webEngine.load(html);                
+        final String html = AceCodeArea.class.getResource("html/editor.html").toExternalForm();
+        webEngine.load(html);
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
             if(newValue == Worker.State.SUCCEEDED) {
                isInitializedProperty.setValue(true);
