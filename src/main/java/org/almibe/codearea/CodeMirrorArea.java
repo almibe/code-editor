@@ -65,12 +65,12 @@ public class CodeMirrorArea implements CodeArea {
 
     @Override
     public String getTheme() {
-        throw new UnsupportedOperationException();
+        return (String) fetchEditor().call("getOption", "mode");
     }
 
     @Override
     public void setTheme(String theme) {
-        throw new UnsupportedOperationException();
+        webEngine.executeScript("setTheme('" + theme + "')");
     }
 
     @Override
