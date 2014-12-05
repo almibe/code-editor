@@ -18,6 +18,10 @@
   codeMirror.setOption("fullScreen", true);
 
   function setTheme(theme) {
+    if(theme == 'default') {
+      codeMirror.setOption("theme", theme);
+      return;
+    }
     var sheets = document.styleSheets;
     var exists = false;
     for(var sheet in sheets) {
