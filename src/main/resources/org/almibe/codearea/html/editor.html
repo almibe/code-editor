@@ -12,10 +12,12 @@
 <script src="codemirror-4.8/lib/codemirror.js" type="text/javascript" charset="utf-8"></script>
 <script src="codemirror-4.8/mode/groovy/groovy.js" type="text/javascript" charset="utf-8"></script>
 <script src="codemirror-4.8/addon/display/fullscreen.js"></script>
+<script src="codemirror-4.8/addon/selection/active-line.js"></script>
 <script>
   var codeMirror = CodeMirror(document.body);
   codeMirror.setOption("lineNumbers", true);
   codeMirror.setOption("fullScreen", true);
+  codeMirror.setOption("styleActiveLine", true);
 
   function setTheme(theme) {
     if(theme == 'default') {
@@ -38,6 +40,10 @@
       document.getElementsByTagName("head")[0].appendChild(link)
     }
     codeMirror.setOption("theme", theme)
+  }
+
+  function setMode(mode) {
+
   }
 </script>
 </body>
