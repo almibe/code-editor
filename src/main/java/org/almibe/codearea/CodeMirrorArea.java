@@ -59,13 +59,27 @@ public class CodeMirrorArea implements CodeArea {
     }
 
     @Override
-    public void setMode(String mode) {
-        throw new UnsupportedOperationException();
+    public void setModeByName(String mode) {
+        //webEngine.executeScript("setMode('" + mode + "')");
+        //TODO implement
+        throw new UnsupportedOperationException("contentProperty is not implemented");
+    }
+
+    @Override
+    public void includeJSFile(String filePath) {
+        //TODO implement
+        throw new UnsupportedOperationException("contentProperty is not implemented");
+    }
+
+    @Override
+    public void setModeByMIMEType(String mimeType) {
+        //TODO implement
+        throw new UnsupportedOperationException("contentProperty is not implemented");
     }
 
     @Override
     public String getTheme() {
-        return (String) fetchEditor().call("getOption", "mode");
+        return (String) fetchEditor().call("getOption", "theme");
     }
 
     @Override
@@ -75,7 +89,7 @@ public class CodeMirrorArea implements CodeArea {
 
     @Override
     public String getMode() {
-        throw new UnsupportedOperationException();
+        return (String) fetchEditor().call("getOption", "mode");
     }
 
     @Override
