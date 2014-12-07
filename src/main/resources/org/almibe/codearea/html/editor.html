@@ -10,29 +10,31 @@
 <body>
 
 <script src="codemirror-4.8/lib/codemirror.js" type="text/javascript" charset="utf-8"></script>
-<script src="codemirror-4.8/mode/groovy/groovy.js" type="text/javascript" charset="utf-8"></script>
 <script src="codemirror-4.8/addon/display/fullscreen.js"></script>
 <script src="codemirror-4.8/addon/selection/active-line.js"></script>
+<script src="codemirror-4.8/addon/mode/loadmode.js"></script>
+<script src="codemirror-4.8/mode/meta.js"></script>
 <script>
   var codeMirror = CodeMirror(document.body);
   codeMirror.setOption("lineNumbers", true);
   codeMirror.setOption("fullScreen", true);
   codeMirror.setOption("styleActiveLine", true);
+  CodeMirror.modeURL = "codemirror-4.8/mode/%N/%N.js";
 
   function setTheme(theme) {
-    if(theme == 'default') {
-      codeMirror.setOption("theme", theme);
+    if (theme == 'default') {
+      codeMirror.setOption("theme", 'default');
       return;
     }
     var sheets = document.styleSheets;
     var exists = false;
-    for(var sheet in sheets) {
-      if(sheet && sheet.href && sheet.href.endsWith("/" + theme + ".css")) {
+    for (var sheet in sheets) {
+      if (sheet && sheet.href && sheet.href.endsWith("/" + theme + ".css")) {
         exists = true;
         break;
       }
     }
-    if(!exists) {
+    if (!exists) {
       var link = document.createElement("link");
       link.rel = "stylesheet";
       link.type = "text/css";
@@ -42,8 +44,19 @@
     codeMirror.setOption("theme", theme)
   }
 
-  function setMode(mode) {
+  function importJS(file) {
 
+  }
+
+  function setModeByMIMEType(mimeType) {
+
+  }
+
+  function setModeByName(modeName) {
+    if (modeName) {
+      codeMirror.setOption("mode", modeName);
+      CodeMirror.autoLoadMode(codeMirror, modeName);
+    }
   }
 </script>
 </body>
