@@ -50,6 +50,7 @@ public class CodeMirrorArea implements CodeArea {
         fetchEditor().call("setOption", "readOnly", readOnly);
     }
 
+    @Override
     public JSObject fetchEditor() {
         Object editor = webEngine.executeScript("codeMirror;");
         if(editor instanceof JSObject) {
