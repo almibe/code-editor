@@ -5,6 +5,8 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.Parent;
 import netscape.javascript.JSObject;
 
+import java.util.List;
+
 public interface CodeArea {
     StringProperty contentProperty();
     ReadOnlyBooleanProperty isInitializedProperty();
@@ -15,6 +17,8 @@ public interface CodeArea {
     String getMode();
     void setModeByName(String mode);
     void setModeByMIMEType(String mimeType);
+    List<String> getAvailableMIMETypes();
+    List<String> getAvailableModes();
     void includeJSFile(String filePath, Runnable runnable);
     JSObject fetchEditor();
     String getTheme();
