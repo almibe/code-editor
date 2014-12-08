@@ -1,14 +1,12 @@
 package org.almibe.codearea;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.Parent;
 import netscape.javascript.JSObject;
 
-import java.util.List;
-
 public interface CodeArea {
-    StringProperty contentProperty();
+    String getContent();
+    void setContent(String newContent);
     ReadOnlyBooleanProperty isInitializedProperty();
     void init();
     Parent getWidget();
