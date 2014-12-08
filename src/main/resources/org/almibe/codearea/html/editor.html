@@ -55,8 +55,27 @@
     if (allModeNames.indexOf(modeName)) {
       codeMirror.setOption("mode", modeName);
     }
-    CodeMirror.autoLoadMode(codeMirror, modeName);
+    change(modeName);
   }
+
+  //modified from demo/loadmode.html
+  function change(val) {
+    var m, mode, spec;
+    if (/\//.test(val)) {
+      var info = CodeMirror.findModeByMIME(val);
+      if (info) {
+        mode = info.mode;
+        spec = val;
+      }
+    } else {
+      mode = spec = val;
+    }
+    if (mode) {
+      codeMirror.setOption("mode", spec);
+      CodeMirror.autoLoadMode(codeMirror, mode);
+    }
+  }
+
 </script>
 </body>
 </html>
