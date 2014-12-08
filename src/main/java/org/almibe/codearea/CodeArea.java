@@ -17,8 +17,6 @@ public interface CodeArea {
     String getMode();
     void setModeByName(String mode);
     void setModeByMIMEType(String mimeType);
-    List<String> getAvailableMIMETypes();
-    List<String> getAvailableModes();
     void includeJSFile(String filePath, Runnable runnable);
     JSObject fetchEditor();
     String getTheme();
