@@ -9,6 +9,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
+import java.util.List;
+
 public class CodeMirrorArea implements CodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
@@ -67,7 +69,7 @@ public class CodeMirrorArea implements CodeArea {
     }
 
     @Override
-    public void includeJSFile(String filePath) {
+    public void includeJSFile(String filePath, Runnable runnable) {
         //TODO implement
         throw new UnsupportedOperationException("contentProperty is not implemented");
     }
@@ -76,6 +78,18 @@ public class CodeMirrorArea implements CodeArea {
     public void setModeByMIMEType(String mimeType) {
         //TODO implement
         throw new UnsupportedOperationException("contentProperty is not implemented");
+    }
+
+    @Override
+    public List<String> getAvailableMIMETypes() {
+        //TODO implement
+        throw new RuntimeException();
+    }
+
+    @Override
+    public List<String> getAvailableModes() {
+        //TODO implement
+        throw new RuntimeException();
     }
 
     @Override

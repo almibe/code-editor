@@ -40,9 +40,9 @@ public class Demo extends Application {
     private Parent modeControls() {
         HBox box = new HBox();
         TextField modeInput = new TextField();
-        Button button = new Button("Set Mode");
+        Button button = new Button("Set MIME Type");
         box.getChildren().addAll(modeInput, button);
-        button.setOnAction(event -> codeArea.setMode(modeInput.getText()));
+        button.setOnAction(event -> codeArea.setModeByMIMEType(modeInput.getText()));
         return box;
     }
 
