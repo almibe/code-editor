@@ -61,9 +61,7 @@ public class CodeMirrorArea implements CodeArea {
 
     @Override
     public void setMode(String mode) {
-        //webEngine.executeScript("setMode('" + mode + "')");
-        //TODO implement
-        throw new UnsupportedOperationException("contentProperty is not implemented");
+        webEngine.executeScript("setMode('" + mode + "')");
     }
 
     @Override
