@@ -39,24 +39,23 @@
       link.rel = "stylesheet";
       link.type = "text/css";
       link.href = "codemirror-4.8/theme/" + theme + ".css";
-      document.getElementsByTagName("head")[0].appendChild(link)
+      document.getElementsByTagName("head")[0].appendChild(link);
     }
-    codeMirror.setOption("theme", theme)
+    codeMirror.setOption("theme", theme);
   }
 
-  function importJS(file) {
-
-  }
-
-  function setModeByMIMEType(mimeType) {
+  function importJS(file, callback) {
 
   }
 
-  function setModeByName(modeName) {
-    if (modeName) {
+  function setMode(modeName) {
+    var mimeModes = Object.keys(CodeMirror.mimeModes);
+    var modeNames = Object.keys(CodeMirror.modes);
+    var allModeNames = mimeModes.concat(modeNames);
+    if (allModeNames.indexOf(modeName)) {
       codeMirror.setOption("mode", modeName);
-      CodeMirror.autoLoadMode(codeMirror, modeName);
     }
+    CodeMirror.autoLoadMode(codeMirror, modeName);
   }
 </script>
 </body>
