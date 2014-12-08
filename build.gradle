@@ -28,6 +28,6 @@ dependencies {
 }
 
 bundle {
-    instruction 'Export-Package', 'org.almibe.codearea'
+    instruction 'Export-Package', 'org.almibe.codeeditor'
     instruction 'Private-Package', '*'
 }

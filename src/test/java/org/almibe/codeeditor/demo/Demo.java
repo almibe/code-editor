@@ -1,4 +1,4 @@
-package org.almibe.codearea.demo;
+package org.almibe.codeeditor.demo;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -9,8 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.almibe.codearea.CodeMirrorArea;
-import org.almibe.codearea.CodeArea;
+import org.almibe.codeeditor.CodeMirrorArea;
+import org.almibe.codeeditor.CodeArea;
 
 public class Demo extends Application {
     private final CodeArea codeArea = new CodeMirrorArea();

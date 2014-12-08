@@ -1,4 +1,4 @@
-package org.almibe.codearea;
+package org.almibe.codeeditor;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
