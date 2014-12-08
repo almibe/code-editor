@@ -15,8 +15,7 @@ public interface CodeArea {
     boolean isReadOnly();
     void setReadOnly(boolean readOnly);
     String getMode();
-    void setModeByName(String mode);
-    void setModeByMIMEType(String mimeType);
+    void setMode(String mode);
     void includeJSFile(String filePath, Runnable runnable);
     JSObject fetchEditor();
     String getTheme();

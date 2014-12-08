@@ -60,7 +60,7 @@ public class CodeMirrorArea implements CodeArea {
     }
 
     @Override
-    public void setModeByName(String mode) {
+    public void setMode(String mode) {
         //webEngine.executeScript("setMode('" + mode + "')");
         //TODO implement
         throw new UnsupportedOperationException("contentProperty is not implemented");
@@ -68,12 +68,6 @@ public class CodeMirrorArea implements CodeArea {
 
     @Override
     public void includeJSFile(String filePath, Runnable runnable) {
-        //TODO implement
-        throw new UnsupportedOperationException("contentProperty is not implemented");
-    }
-
-    @Override
-    public void setModeByMIMEType(String mimeType) {
         //TODO implement
         throw new UnsupportedOperationException("contentProperty is not implemented");
     }
