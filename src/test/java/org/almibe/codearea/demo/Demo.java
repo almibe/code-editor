@@ -58,8 +58,11 @@ public class Demo extends Application {
     private Parent contentControls() {
         HBox box = new HBox();
         TextArea content = new TextArea();
-        content.textProperty().bindBidirectional(codeArea.contentProperty());
-        box.getChildren().addAll(content);
+        Button setButton = new Button("Set Content");
+        Button getButton = new Button("Get Content");
+        setButton.setOnAction(event -> {codeArea.setContent(content.getText());});
+        getButton.setOnAction(event -> {content.setText(codeArea.getContent());});
+        box.getChildren().addAll(content, setButton, getButton);
         return box;
     }
 
