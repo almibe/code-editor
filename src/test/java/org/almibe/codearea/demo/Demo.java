@@ -19,7 +19,7 @@ public class Demo extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(codeArea.getWidget());
         VBox controls = new VBox();
-        controls.getChildren().addAll(readOnlyControls(), modeControls(), themeControls(), contentControls());
+        controls.getChildren().addAll(readOnlyControls(), modeControls(), mimeControls(), themeControls(), contentControls());
         borderPane.setBottom(controls);
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
@@ -37,7 +37,7 @@ public class Demo extends Application {
         return box;
     }
 
-    private Parent modeControls() {
+    private Parent mimeControls() {
         HBox box = new HBox();
         TextField modeInput = new TextField();
         Button button = new Button("Set MIME Type");
@@ -45,6 +45,16 @@ public class Demo extends Application {
         button.setOnAction(event -> codeArea.setModeByMIMEType(modeInput.getText()));
         return box;
     }
+
+    private Parent modeControls() {
+        HBox box = new HBox();
+        TextField modeInput = new TextField();
+        Button button = new Button("Set Mode");
+        box.getChildren().addAll(modeInput, button);
+        button.setOnAction(event -> codeArea.setModeByName(modeInput.getText()));
+        return box;
+    }
+
 
     private Parent themeControls() {
         HBox box = new HBox();
