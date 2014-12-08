@@ -14,7 +14,7 @@ public class CodeMirrorArea implements CodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
     private final ReadOnlyBooleanWrapper isInitializedProperty = new ReadOnlyBooleanWrapper(false);
-    private final StringProperty editorContent = new SimpleStringProperty();
+    private final StringProperty editorContent = new SimpleStringProperty("");
     
     public CodeMirrorArea() {
         webView = new WebView();        
@@ -27,7 +27,11 @@ public class CodeMirrorArea implements CodeArea {
         webEngine.load(html);
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
             if(newValue == Worker.State.SUCCEEDED) {
-               isInitializedProperty.setValue(true);
+                isInitializedProperty.setValue(true);
+                editorContent.addListener((textObservable, oldTextValue, newTextValue) -> {
+                    fetchEditor().call("setOption","value", newTextValue);
+                });
+                fetchEditor().call("setOption","value", editorContent.getValue());
             }
         });
     }
