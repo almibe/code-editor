@@ -4,7 +4,7 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Parent;
 import netscape.javascript.JSObject;
 
-public interface CodeArea {
+public interface CodeEditor {
     String getContent();
     void setContent(String newContent);
     ReadOnlyBooleanProperty isInitializedProperty();

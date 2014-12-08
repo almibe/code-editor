@@ -9,21 +9,21 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.almibe.codeeditor.CodeMirrorArea;
-import org.almibe.codeeditor.CodeArea;
+import org.almibe.codeeditor.CodeMirrorEditor;
+import org.almibe.codeeditor.CodeEditor;
 
 public class Demo extends Application {
-    private final CodeArea codeArea = new CodeMirrorArea();
+    private final CodeEditor codeEditor = new CodeMirrorEditor();
     @Override
     public void start(Stage primaryStage) throws Exception {
         BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(codeArea.getWidget());
+        borderPane.setCenter(codeEditor.getWidget());
         VBox controls = new VBox();
         controls.getChildren().addAll(readOnlyControls(), modeControls(), themeControls(), contentControls());
         borderPane.setBottom(controls);
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        codeArea.init();
+        codeEditor.init();
         primaryStage.show();
     }
 
@@ -31,8 +31,8 @@ public class Demo extends Application {
         HBox box = new HBox();
         Button setReadOnly = new Button("Set Read Only");
         Button unsetReadOnly = new Button("Set Editable");
-        setReadOnly.setOnAction(event -> codeArea.setReadOnly(true));
-        unsetReadOnly.setOnAction(event -> codeArea.setReadOnly(false));
+        setReadOnly.setOnAction(event -> codeEditor.setReadOnly(true));
+        unsetReadOnly.setOnAction(event -> codeEditor.setReadOnly(false));
         box.getChildren().addAll(setReadOnly, unsetReadOnly);
         return box;
     }
@@ -42,7 +42,7 @@ public class Demo extends Application {
         TextField modeInput = new TextField();
         Button button = new Button("Set Mode");
         box.getChildren().addAll(modeInput, button);
-        button.setOnAction(event -> codeArea.setMode(modeInput.getText()));
+        button.setOnAction(event -> codeEditor.setMode(modeInput.getText()));
         return box;
     }
 
@@ -50,7 +50,7 @@ public class Demo extends Application {
         HBox box = new HBox();
         TextField themeInput = new TextField();
         Button button = new Button("Set Theme");
-        button.setOnAction(event -> codeArea.setTheme(themeInput.getText()));
+        button.setOnAction(event -> codeEditor.setTheme(themeInput.getText()));
         box.getChildren().addAll(themeInput, button);
         return box;
     }
@@ -60,8 +60,9 @@ public class Demo extends Application {
         TextArea content = new TextArea();
         Button setButton = new Button("Set Content");
         Button getButton = new Button("Get Content");
-        setButton.setOnAction(event -> {codeArea.setContent(content.getText());});
-        getButton.setOnAction(event -> {content.setText(codeArea.getContent());});
+        setButton.setOnAction(event -> {
+            codeEditor.setContent(content.getText());});
+        getButton.setOnAction(event -> {content.setText(codeEditor.getContent());});
         box.getChildren().addAll(content, setButton, getButton);
         return box;
     }

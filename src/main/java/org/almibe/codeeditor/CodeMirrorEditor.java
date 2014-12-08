@@ -8,19 +8,19 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
-public class CodeMirrorArea implements CodeArea {
+public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
     private final WebEngine webEngine;
     private final ReadOnlyBooleanWrapper isInitializedProperty = new ReadOnlyBooleanWrapper(false);
     
-    public CodeMirrorArea() {
+    public CodeMirrorEditor() {
         webView = new WebView();        
         webEngine = webView.getEngine();
     }
 
     @Override
     public void init() {
-        final String html = CodeMirrorArea.class.getResource("html/editor.html").toExternalForm();
+        final String html = CodeMirrorEditor.class.getResource("html/editor.html").toExternalForm();
         webEngine.load(html);
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
             if(newValue == Worker.State.SUCCEEDED) {
