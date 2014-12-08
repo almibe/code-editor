@@ -2,6 +2,7 @@ package org.almibe.codearea;
 
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Worker;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ public class CodeMirrorArea implements CodeArea {
     private final WebView webView;
     private final WebEngine webEngine;
     private final ReadOnlyBooleanWrapper isInitializedProperty = new ReadOnlyBooleanWrapper(false);
+    private final StringProperty editorContent = new SimpleStringProperty();
     
     public CodeMirrorArea() {
         webView = new WebView();        
@@ -67,7 +69,7 @@ public class CodeMirrorArea implements CodeArea {
     @Override
     public void includeJSFile(String filePath, Runnable runnable) {
         //TODO implement
-        throw new UnsupportedOperationException("contentProperty is not implemented");
+        throw new RuntimeException("includeJSFile is not implemented");
     }
 
     @Override
@@ -87,6 +89,6 @@ public class CodeMirrorArea implements CodeArea {
 
     @Override
     public StringProperty contentProperty() {
-        throw new UnsupportedOperationException("contentProperty is not implemented");
+        return this.editorContent;
     }
 }

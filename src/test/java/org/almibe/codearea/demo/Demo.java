@@ -58,8 +58,7 @@ public class Demo extends Application {
     private Parent contentControls() {
         HBox box = new HBox();
         TextArea content = new TextArea();
-        content.editableProperty().setValue(false);
-        //content.textProperty().bind(codeArea.contentProperty());
+        content.textProperty().bindBidirectional(codeArea.contentProperty());
         box.getChildren().addAll(content);
         return box;
     }
