@@ -74,9 +74,14 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void includeJSFile(String filePath, Runnable runnable) {
+    public void includeJSModules(String[] modules, Runnable runnable) {
         //TODO implement
         throw new RuntimeException("includeJSFile is not implemented");
+    }
+
+    @Override
+    public JSObject fetchRequireJSObject() {
+        return (JSObject) webEngine.executeScript("require();");
     }
 
     @Override
