@@ -14,7 +14,8 @@ public interface CodeEditor {
     void setReadOnly(boolean readOnly);
     String getMode();
     void setMode(String mode);
-    void includeJSFile(String filePath, Runnable runnable);
+    void includeJSModules(String[] modules, Runnable runnable);
+    JSObject fetchRequireJSObject();
     JSObject fetchEditor();
     String getTheme();
     void setTheme(String theme);
