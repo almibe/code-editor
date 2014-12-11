@@ -57,10 +57,11 @@ define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscree
             var mimeModes = Object.keys(CodeMirror.mimeModes);
             var modeNames = Object.keys(CodeMirror.modes);
             var allModeNames = mimeModes.concat(modeNames);
-            if (allModeNames.indexOf(modeName)) {
+            if (allModeNames.indexOf(modeName) >= 0) {
               codeMirror.setOption("mode", modeName);
+            } else {
+              changeMode(modeName);
             }
-            changeMode(modeName);
         }
     }
 });
