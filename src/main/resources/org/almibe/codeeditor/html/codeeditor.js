@@ -8,6 +8,7 @@ define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscree
 
 
     return {
+        "codeMirror": codeMirror,
         setTheme: function(theme) {
             if (theme == 'default') {
               codeMirror.setOption("theme", 'default');

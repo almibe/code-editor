@@ -61,7 +61,7 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public JSObject fetchEditor() {
-        Object editor = webEngine.executeScript("codeMirror;");
+        Object editor = webEngine.executeScript("require('codeeditor').codeMirror;");
         if(editor instanceof JSObject) {
             return (JSObject) editor;
         }
@@ -69,8 +69,14 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
+    public String getMode() {
+        return (String) fetchEditor().call("getOption", "mode");
+    }
+
+    @Override
     public void setMode(String mode) {
-        webEngine.executeScript("setMode('" + mode + "')");
+        //TODO finish this function
+        webEngine.executeScript("require('codeeditor').setMode('" + mode + "')");
     }
 
     @Override
@@ -91,11 +97,6 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public void setTheme(String theme) {
-        webEngine.executeScript("setTheme('" + theme + "')");
-    }
-
-    @Override
-    public String getMode() {
-        return (String) fetchEditor().call("getOption", "mode");
+        webEngine.executeScript("require('codeeditor').setTheme('" + theme + "')");
     }
 }
