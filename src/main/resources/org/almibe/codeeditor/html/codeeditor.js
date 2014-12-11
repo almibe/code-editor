@@ -49,8 +49,10 @@ define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscree
             codeMirror.setOption("theme", theme);
         },
 
-        importJS: function(file, callback) {
-
+        importJSModules: function(modules, callback) {
+            require(modules, function() {
+                callback.run();
+            });
         },
 
         setMode: function(modeName) {

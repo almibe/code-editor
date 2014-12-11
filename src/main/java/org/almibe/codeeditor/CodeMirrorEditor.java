@@ -80,8 +80,8 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public void includeJSModules(String[] modules, Runnable runnable) {
-        //TODO implement
-        throw new RuntimeException("includeJSFile is not implemented");
+        //TODO test this
+        fetchCodeEditorObject().call("importJSModules", modules, runnable);
     }
 
     @Override
@@ -97,5 +97,9 @@ public class CodeMirrorEditor implements CodeEditor {
     @Override
     public void setTheme(String theme) {
         webEngine.executeScript("require('codeeditor').setTheme('" + theme + "')");
+    }
+
+    private JSObject fetchCodeEditorObject() {
+        return (JSObject) webEngine.executeScript("require('codeeditor');");
     }
 }
