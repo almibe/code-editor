@@ -6,6 +6,23 @@ define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscree
     codeMirror.setOption("styleActiveLine", true);
     CodeMirror.modeURL = "codemirror-4.8/mode/%N/%N.js";
 
+    //modified from demo/loadmode.html
+    function changeMode(val) {
+        var m, mode, spec;
+        if (/\//.test(val)) {
+          var info = CodeMirror.findModeByMIME(val);
+          if (info) {
+            mode = info.mode;
+            spec = val;
+          }
+        } else {
+          mode = spec = val;
+        }
+        if (mode) {
+          codeMirror.setOption("mode", spec);
+          CodeMirror.autoLoadMode(codeMirror, mode);
+        }
+    }
 
     return {
         "codeMirror": codeMirror,
@@ -36,32 +53,14 @@ define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscree
 
         },
 
-        setMode: function(mode) {
+        setMode: function(modeName) {
             var mimeModes = Object.keys(CodeMirror.mimeModes);
             var modeNames = Object.keys(CodeMirror.modes);
             var allModeNames = mimeModes.concat(modeNames);
             if (allModeNames.indexOf(modeName)) {
               codeMirror.setOption("mode", modeName);
             }
-            change(modeName);
-        },
-
-        //modified from demo/loadmode.html
-        change: function(val) {
-            var m, mode, spec;
-            if (/\//.test(val)) {
-              var info = CodeMirror.findModeByMIME(val);
-              if (info) {
-                mode = info.mode;
-                spec = val;
-              }
-            } else {
-              mode = spec = val;
-            }
-            if (mode) {
-              codeMirror.setOption("mode", spec);
-              CodeMirror.autoLoadMode(codeMirror, mode);
-            }
+            changeMode(modeName);
         }
     }
 });

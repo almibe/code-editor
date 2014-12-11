@@ -75,7 +75,6 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public void setMode(String mode) {
-        //TODO finish this function
         webEngine.executeScript("require('codeeditor').setMode('" + mode + "')");
     }
 
