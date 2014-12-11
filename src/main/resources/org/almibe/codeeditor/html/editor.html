@@ -9,17 +9,8 @@
 </head>
 <body>
 
-<script src="codemirror-4.8/lib/codemirror.js" type="text/javascript" charset="utf-8"></script>
-<script src="codemirror-4.8/addon/display/fullscreen.js"></script>
-<script src="codemirror-4.8/addon/selection/active-line.js"></script>
-<script src="codemirror-4.8/addon/mode/loadmode.js"></script>
-<script src="codemirror-4.8/mode/meta.js"></script>
+<script data-main="main" src="require.js"></script>
 <script>
-  var codeMirror = CodeMirror(document.body);
-  codeMirror.setOption("lineNumbers", true);
-  codeMirror.setOption("fullScreen", true);
-  codeMirror.setOption("styleActiveLine", true);
-  CodeMirror.modeURL = "codemirror-4.8/mode/%N/%N.js";
 
   function setTheme(theme) {
     if (theme == 'default') {
