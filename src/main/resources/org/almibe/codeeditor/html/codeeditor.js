@@ -1,10 +1,10 @@
-define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscreen", "codemirror-4.8/addon/selection/active-line",
-            "codemirror-4.8/addon/mode/loadmode", "codemirror-4.8/mode/meta"], function(CodeMirror) {
+define(["codemirror/lib/codemirror", "codemirror/addon/display/fullscreen", "codemirror/addon/selection/active-line",
+            "codemirror/addon/mode/loadmode", "codemirror/mode/meta"], function(CodeMirror) {
     var codeMirror = CodeMirror(document.body);
     codeMirror.setOption("lineNumbers", true);
     codeMirror.setOption("fullScreen", true);
     codeMirror.setOption("styleActiveLine", true);
-    CodeMirror.modeURL = "codemirror-4.8/mode/%N/%N.js";
+    CodeMirror.modeURL = "codemirror/mode/%N/%N.js";
 
     //modified from demo/loadmode.html
     function changeMode(val) {
@@ -43,7 +43,7 @@ define(["codemirror-4.8/lib/codemirror", "codemirror-4.8/addon/display/fullscree
               var link = document.createElement("link");
               link.rel = "stylesheet";
               link.type = "text/css";
-              link.href = "codemirror-4.8/theme/" + theme + ".css";
+              link.href = "codemirror/theme/" + theme + ".css";
               document.getElementsByTagName("head")[0].appendChild(link);
             }
             codeMirror.setOption("theme", theme);
