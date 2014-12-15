@@ -1,0 +1,4 @@
+require(["codeeditor"],
+    function() {
+    }
+);
