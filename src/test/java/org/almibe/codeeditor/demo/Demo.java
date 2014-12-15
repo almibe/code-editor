@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import org.almibe.codeeditor.CodeMirrorEditor;
 import org.almibe.codeeditor.CodeEditor;
 
+import java.nio.file.Paths;
+
 public class Demo extends Application {
     private final CodeEditor codeEditor = new CodeMirrorEditor();
     @Override
@@ -23,7 +25,7 @@ public class Demo extends Application {
         borderPane.setBottom(controls);
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        codeEditor.init();
+        codeEditor.init(Paths.get("src/test/resources/html/editor.html"));
         primaryStage.show();
     }
 

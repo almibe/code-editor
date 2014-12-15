@@ -8,6 +8,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
+import java.nio.file.Path;
+
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
     private final WebEngine webEngine;
@@ -19,9 +21,8 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void init() {
-        final String html = CodeMirrorEditor.class.getResource("html/editor.html").toExternalForm();
-        webEngine.load(html);
+    public void init(Path indexPage) {
+        webEngine.load(indexPage.toUri().toString());
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
             if(newValue == Worker.State.SUCCEEDED) {
                 isInitializedProperty.setValue(true);

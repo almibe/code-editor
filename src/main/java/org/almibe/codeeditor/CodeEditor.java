@@ -4,11 +4,13 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Parent;
 import netscape.javascript.JSObject;
 
+import java.nio.file.Path;
+
 public interface CodeEditor {
     String getContent();
     void setContent(String newContent);
     ReadOnlyBooleanProperty isInitializedProperty();
-    void init();
+    void init(Path indexPage);
     Parent getWidget();
     boolean isReadOnly();
     void setReadOnly(boolean readOnly);
