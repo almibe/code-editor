@@ -25,7 +25,7 @@ public class Demo extends Application {
         borderPane.setBottom(controls);
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        codeEditor.init(Paths.get("src/test/resources/html/editor.html"));
+        codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri());
         primaryStage.show();
     }
 
