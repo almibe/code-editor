@@ -13,8 +13,8 @@ import java.net.URI;
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
     private final WebEngine webEngine;
-    private final ReadOnlyBooleanWrapper isInitializedProperty = new ReadOnlyBooleanWrapper(false);
-    
+    private final ReadOnlyBooleanWrapper editorInitializedProperty = new ReadOnlyBooleanWrapper(false);
+
     public CodeMirrorEditor() {
         webView = new WebView();        
         webEngine = webView.getEngine();
@@ -25,9 +25,18 @@ public class CodeMirrorEditor implements CodeEditor {
         webEngine.load(indexPage.toString());
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
             if(newValue == Worker.State.SUCCEEDED) {
-                isInitializedProperty.setValue(true);
+                JSObject window = fetchWindow();
+                window.call("editorLoaded", new EditorLoadedCallback());
             }
         });
+    }
+
+    //because of JavaFX/WebKit access policy this callback has to be a public inner class and can't be a lambda or anonymous inner class
+    public class EditorLoadedCallback implements Runnable {
+        @Override
+        public void run() {
+            editorInitializedProperty.setValue(true);
+        }
     }
 
     @Override
@@ -41,8 +50,8 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public ReadOnlyBooleanProperty isInitializedProperty() {
-        return isInitializedProperty.getReadOnlyProperty();
+    public ReadOnlyBooleanProperty editorInitializedProperty() {
+        return editorInitializedProperty.getReadOnlyProperty();
     }
 
     @Override
@@ -103,4 +112,6 @@ public class CodeMirrorEditor implements CodeEditor {
     private JSObject fetchCodeEditorObject() {
         return (JSObject) webEngine.executeScript("require('codeeditor');");
     }
+
+    private JSObject fetchWindow() { return (JSObject) webEngine.executeScript("window;"); }
 }

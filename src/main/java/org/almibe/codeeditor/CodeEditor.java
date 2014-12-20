@@ -9,7 +9,7 @@ import java.net.URI;
 public interface CodeEditor {
     String getContent();
     void setContent(String newContent);
-    ReadOnlyBooleanProperty isInitializedProperty();
+    ReadOnlyBooleanProperty editorInitializedProperty();
     void init(URI indexPage);
     Parent getWidget();
     boolean isReadOnly();

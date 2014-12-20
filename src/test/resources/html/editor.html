@@ -10,5 +10,13 @@
 <body>
 
 <script data-main="main" src="require.js"></script>
+<script>
+  //this function is only used to alert the CodeMirrorEditor class when the editor is actually loaded via require.js
+  function editorLoaded(callback) {
+    require(['codeeditor'], function() {
+      callback.run();
+    });
+  }
+</script>
 </body>
 </html>

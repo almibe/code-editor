@@ -26,6 +26,8 @@ public class Demo extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
         codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri());
+        //codeEditor.setReadOnly(true); <-- this will crash
+        codeEditor.editorInitializedProperty().addListener(change -> codeEditor.setReadOnly(true));
         primaryStage.show();
     }
 
