@@ -28,6 +28,8 @@ public class Demo extends Application {
         codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri());
         //codeEditor.setReadOnly(true); <-- this will crash
         codeEditor.editorInitializedProperty().addListener(change -> codeEditor.setReadOnly(true));
+        codeEditor.editorInitializedProperty().addListener(change -> codeEditor.setReadOnly(false));
+        codeEditor.editorInitializedProperty().addListener(change -> codeEditor.setContent("Test content?!?@!?@!?@!?@!?"));
         primaryStage.show();
     }
 
