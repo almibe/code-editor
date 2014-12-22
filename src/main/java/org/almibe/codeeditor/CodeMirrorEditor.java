@@ -120,7 +120,7 @@ public class CodeMirrorEditor implements CodeEditor {
                 cssFileArgument += ", " + file;
             }
         }
-        webEngine.executeScript("require('codeeditor').setTheme('" + theme + cssFileArgument + ");");
+        webEngine.executeScript("require('codeeditor').setTheme(" + theme + cssFileArgument + ");");
     }
 
     @Override
