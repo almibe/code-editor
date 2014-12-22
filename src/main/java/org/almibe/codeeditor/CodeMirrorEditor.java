@@ -23,6 +23,7 @@ public class CodeMirrorEditor implements CodeEditor {
         webEngine = webView.getEngine();
     }
 
+    @Override
     public void init(URI editorUri, Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
         webEngine.load(editorUri.toString());
