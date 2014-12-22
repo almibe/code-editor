@@ -125,7 +125,8 @@ public class CodeMirrorEditor implements CodeEditor {
 
     private void handleQueue() {
         if(isEditorInitialized) {
-            for(Runnable runnable : queue) {
+            while(!queue.isEmpty()) {
+                Runnable runnable = queue.remove();
                 runnable.run();
             }
         }
