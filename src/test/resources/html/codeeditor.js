@@ -24,7 +24,7 @@ define(["codemirror/lib/codemirror", "codemirror/addon/display/fullscreen", "cod
         }
     }
 
-    function loadCss(file) {
+    function loadCss(theme) {
         var sheets = document.styleSheets;
         var exists = false;
         for (var sheet in sheets) {

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.almibe.codeeditor.CodeMirrorEditor;
 import org.almibe.codeeditor.CodeEditor;
@@ -54,10 +55,16 @@ public class Demo extends Application {
 
     private Parent themeControls() {
         HBox box = new HBox();
+        Text themeText = new Text("Theme: ");
         TextField themeInput = new TextField();
+        Text cssFileText = new Text("Css Files: ");
+        TextField cssInput = new TextField();
         Button button = new Button("Set Theme");
-        button.setOnAction(event -> codeEditor.setTheme(themeInput.getText()));
-        box.getChildren().addAll(themeInput, button);
+        button.setOnAction(event -> {
+            String[] files = cssInput.getText().split(",");
+            codeEditor.setTheme(themeInput.getText(), files);
+        });
+        box.getChildren().addAll(themeText, themeInput, cssFileText, cssInput, button);
         return box;
     }
 

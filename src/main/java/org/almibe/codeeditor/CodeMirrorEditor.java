@@ -111,15 +111,16 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public void setTheme(String theme, String... cssFile) {
+        theme = "'" + theme + "'";
         String cssFileArgument = "";
         if (cssFile.length == 1) {
-            cssFileArgument = ", " + cssFile[0];
+            cssFileArgument = ", " + "'" + cssFile[0] + "'";
         } else {
             for(String file : cssFile) {
                 cssFileArgument += ", " + file;
             }
         }
-        webEngine.executeScript("require('codeeditor').setTheme('" + theme + cssFileArgument + ")");
+        webEngine.executeScript("require('codeeditor').setTheme('" + theme + cssFileArgument + ");");
     }
 
     @Override
