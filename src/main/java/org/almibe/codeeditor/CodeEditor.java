@@ -19,6 +19,7 @@ public interface CodeEditor {
     JSObject fetchRequireJSObject();
     JSObject fetchEditor();
     String getTheme();
+    void setTheme(String theme, String... cssFile);
     void setTheme(String theme);
     void runWhenReady(Runnable runnable);
 }
