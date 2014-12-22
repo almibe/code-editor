@@ -61,7 +61,10 @@ public class Demo extends Application {
         TextField cssInput = new TextField();
         Button button = new Button("Set Theme");
         button.setOnAction(event -> {
-            String[] files = cssInput.getText().split(",");
+            String[] files = null;
+            if(!cssInput.getText().equals("")) {
+                files = cssInput.getText().split(",");
+            }
             codeEditor.setTheme(themeInput.getText(), files);
         });
         box.getChildren().addAll(themeText, themeInput, cssFileText, cssInput, button);

@@ -46,8 +46,12 @@ define(["codemirror/lib/codemirror", "codemirror/addon/display/fullscreen", "cod
         "codeMirror": codeMirror,
         setTheme: function() {
             var theme = arguments[0];
-            for (var index = 0; index < arguments.length - 1; index++) {
-                loadCss(arguments[index+1]);
+            if (arguments.length == 1) {
+                loadCss(theme);
+            } else {
+                for (var index = 0; index < arguments.length - 1; index++) {
+                    loadCss(arguments[index+1]);
+                }
             }
             codeMirror.setOption("theme", theme);
         },
