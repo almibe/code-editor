@@ -8,7 +8,7 @@ define(["codemirror/lib/codemirror", "codemirror/addon/display/fullscreen", "cod
 
     //modified from demo/loadmode.html
     function changeMode(val) {
-        var m, mode, spec;
+        var mode, spec;
         if (/\//.test(val)) {
           var info = CodeMirror.findModeByMIME(val);
           if (info) {
@@ -24,27 +24,30 @@ define(["codemirror/lib/codemirror", "codemirror/addon/display/fullscreen", "cod
         }
     }
 
+    function loadCss(file) {
+        var sheets = document.styleSheets;
+        var exists = false;
+        for (var sheet in sheets) {
+          if (sheet && sheet.href && sheet.href.endsWith("/" + theme + ".css")) {
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          var link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.type = "text/css";
+          link.href = "codemirror/theme/" + theme + ".css";
+          document.getElementsByTagName("head")[0].appendChild(link);
+        }
+    }
+
     return {
         "codeMirror": codeMirror,
-        setTheme: function(theme) {
-            if (theme == 'default') {
-              codeMirror.setOption("theme", 'default');
-              return;
-            }
-            var sheets = document.styleSheets;
-            var exists = false;
-            for (var sheet in sheets) {
-              if (sheet && sheet.href && sheet.href.endsWith("/" + theme + ".css")) {
-                exists = true;
-                break;
-              }
-            }
-            if (!exists) {
-              var link = document.createElement("link");
-              link.rel = "stylesheet";
-              link.type = "text/css";
-              link.href = "codemirror/theme/" + theme + ".css";
-              document.getElementsByTagName("head")[0].appendChild(link);
+        setTheme: function() {
+            var theme = arguments[0];
+            for (var index = 0; index < arguments.length - 1; index++) {
+                loadCss(arguments[index+1]);
             }
             codeMirror.setOption("theme", theme);
         },
