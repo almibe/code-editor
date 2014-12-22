@@ -1,7 +1,5 @@
 package org.almibe.codeeditor;
 
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.concurrent.Worker;
 import javafx.scene.Parent;
 import javafx.scene.web.WebEngine;
@@ -9,24 +7,29 @@ import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
     private final WebEngine webEngine;
-    private final ReadOnlyBooleanWrapper editorInitializedProperty = new ReadOnlyBooleanWrapper(false);
+    private boolean isEditorInitialized = false; //TODO make atomic var?
+    private final Queue<Runnable> queue = new LinkedBlockingQueue<>();
+    private final EditorLoadedCallback editorLoadedCallback = new EditorLoadedCallback();
 
     public CodeMirrorEditor() {
         webView = new WebView();        
         webEngine = webView.getEngine();
     }
 
-    @Override
-    public void init(URI indexPage) {
-        webEngine.load(indexPage.toString());
+    public void init(URI editorUri, Runnable... runAfterLoading) {
+        queue.addAll(Arrays.asList(runAfterLoading));
+        webEngine.load(editorUri.toString());
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
             if(newValue == Worker.State.SUCCEEDED) {
                 JSObject window = fetchWindow();
-                window.call("editorLoaded", new EditorLoadedCallback());
+                window.call("editorLoaded", editorLoadedCallback);
             }
         });
     }
@@ -35,7 +38,10 @@ public class CodeMirrorEditor implements CodeEditor {
     public class EditorLoadedCallback implements Runnable {
         @Override
         public void run() {
-            editorInitializedProperty.setValue(true);
+            isEditorInitialized = true;
+            for(Runnable runnable : queue) {
+                runnable.run();
+            }
         }
     }
 
@@ -50,8 +56,8 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public ReadOnlyBooleanProperty editorInitializedProperty() {
-        return editorInitializedProperty.getReadOnlyProperty();
+    public boolean isEditorInitialized() {
+        return isEditorInitialized;
     }
 
     @Override
@@ -107,6 +113,15 @@ public class CodeMirrorEditor implements CodeEditor {
     @Override
     public void setTheme(String theme) {
         webEngine.executeScript("require('codeeditor').setTheme('" + theme + "')");
+    }
+
+    @Override
+    public void runWhenReady(Runnable runnable) {
+        if(isEditorInitialized) {
+            runnable.run();
+        } else {
+            queue.add(runnable);
+        }
     }
 
     private JSObject fetchCodeEditorObject() {
