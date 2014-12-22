@@ -1,6 +1,5 @@
 package org.almibe.codeeditor;
 
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Parent;
 import netscape.javascript.JSObject;
 
@@ -9,8 +8,8 @@ import java.net.URI;
 public interface CodeEditor {
     String getContent();
     void setContent(String newContent);
-    ReadOnlyBooleanProperty editorInitializedProperty();
-    void init(URI indexPage);
+    boolean isEditorInitialized();
+    void init(URI indexPage, Runnable... runAfterLoading);
     Parent getWidget();
     boolean isReadOnly();
     void setReadOnly(boolean readOnly);
@@ -21,4 +20,5 @@ public interface CodeEditor {
     JSObject fetchEditor();
     String getTheme();
     void setTheme(String theme);
+    void runWhenReady(Runnable runnable);
 }
