@@ -39,9 +39,7 @@ public class CodeMirrorEditor implements CodeEditor {
         @Override
         public void run() {
             isEditorInitialized = true;
-            for(Runnable runnable : queue) {
-                runnable.run();
-            }
+            handleQueue();
         }
     }
 
@@ -121,6 +119,15 @@ public class CodeMirrorEditor implements CodeEditor {
             runnable.run();
         } else {
             queue.add(runnable);
+            handleQueue();
+        }
+    }
+
+    private void handleQueue() {
+        if(isEditorInitialized) {
+            for(Runnable runnable : queue) {
+                runnable.run();
+            }
         }
     }
 
