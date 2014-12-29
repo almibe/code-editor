@@ -1,7 +1,6 @@
 package org.almibe.codeeditor;
 
 import javafx.scene.Parent;
-import netscape.javascript.JSObject;
 
 import java.net.URI;
 
@@ -15,9 +14,8 @@ public interface CodeEditor {
     void setReadOnly(boolean readOnly);
     String getMode();
     void setMode(String mode);
-    void includeJSModules(String[] modules, Runnable runnable);
-    JSObject fetchRequireJSObject();
-    JSObject fetchEditor();
+    //TODO add includeJSModules back in later
+    //void includeJSModules(String[] modules, Runnable runnable);
     String getTheme();
     void setTheme(String theme, String... cssFile);
     void runWhenReady(Runnable runnable);
