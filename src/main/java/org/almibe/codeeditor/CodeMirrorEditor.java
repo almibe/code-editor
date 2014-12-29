@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -66,9 +67,10 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void setContent(String newContent) { //TODO escape content string, mainly double quotes and multi-line strings
+    public void setContent(String newContent) {
+        String escapedContent = StringEscapeUtils.escapeEcmaScript(newContent);
         Platform.runLater(() -> {
-            webView.getEngine().executeScript("codeMirror.setValue(\"" + newContent + "\");");
+            webView.getEngine().executeScript("codeMirror.setValue(\"" + escapedContent + "\");");
         });
     }
 
