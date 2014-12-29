@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 
 public class Demo extends Application {
     private final CodeEditor codeEditor = new CodeMirrorEditor();
+    private final CodeEditor codeEditorRight = new CodeMirrorEditor();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         BorderPane borderPane = new BorderPane();
@@ -26,11 +28,25 @@ public class Demo extends Application {
         borderPane.setBottom(controls);
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
-        codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri());
+        SplitPane sp = new SplitPane();
+        sp.getItems().addAll(codeEditor.getWidget(), codeEditorRight.getWidget());
+        codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri(),
+                //() -> codeEditor.setContent("select * from T t where t.name = \"test\" limit 20;"),
+                () -> codeEditor.setContent("select * from T t where t.name = 'test' limit 20;"),
+                () -> codeEditor.setMode("text/x-sql"),
+                () -> codeEditor.setTheme("xq-light"));
+
+        codeEditorRight.init(Paths.get("src/test/resources/html/editor.html").toUri(),
+                //() -> codeEditorRight.setContent("select * from T t where t.name = \"test\" limit 20;"),
+                () -> codeEditorRight.setContent("select * from T t where t.name = 'test' limit 20;"),
+                () -> codeEditorRight.setMode("text/x-sql"),
+                () -> codeEditorRight.setTheme("xq-light"),
+                () -> codeEditorRight.setReadOnly(true));
+        borderPane.setCenter(sp);
         //codeEditor.setReadOnly(true); <-- this will crash
-        codeEditor.runWhenReady(() -> codeEditor.setReadOnly(true));
-        codeEditor.runWhenReady(() -> codeEditor.setReadOnly(false));
-        codeEditor.runWhenReady(() -> codeEditor.setContent("Test content?!?@!?@!?@!?@!?"));
+//        codeEditor.runWhenReady(() -> codeEditor.setReadOnly(true));
+//        codeEditor.runWhenReady(() -> codeEditor.setReadOnly(false));
+//        codeEditor.runWhenReady(() -> codeEditor.setContent("Test content?!?@!?@!?@!?@!?"));
         primaryStage.show();
     }
 

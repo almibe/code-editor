@@ -1,57 +1,75 @@
 package org.almibe.codeeditor;
 
-import javafx.concurrent.Worker;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
-import netscape.javascript.JSObject;
 
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Queue;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
-    private final WebEngine webEngine;
     private boolean isEditorInitialized = false; //TODO make atomic var?
     private final Queue<Runnable> queue = new LinkedBlockingQueue<>();
-    private final EditorLoadedCallback editorLoadedCallback = new EditorLoadedCallback();
+    private ScheduledExecutorService executor;
 
     public CodeMirrorEditor() {
-        webView = new WebView();        
-        webEngine = webView.getEngine();
+        webView = new WebView();
     }
 
     @Override
     public void init(URI editorUri, Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
-        webEngine.load(editorUri.toString());
-        webEngine.getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) ->  {
-            if(newValue == Worker.State.SUCCEEDED) {
-                JSObject window = fetchWindow();
-                window.call("editorLoaded", editorLoadedCallback);
+        webView.getEngine().load(editorUri.toString());
+        webView.getEngine().setOnError(new EventHandler<WebErrorEvent>() {
+            @Override
+            public void handle(WebErrorEvent event) {
+                throw new RuntimeException(event.getException());
             }
         });
+
+        executor = Executors.newSingleThreadScheduledExecutor();
+        ScheduledFuture future = executor.scheduleWithFixedDelay(new Init(), 0, 100, TimeUnit.MILLISECONDS);
     }
 
-    //because of JavaFX/WebKit access policy this callback has to be a public inner class and can't be a lambda or anonymous inner class
-    public class EditorLoadedCallback implements Runnable {
+    public class Init implements Runnable {
+        private final String command = "init();";
+
         @Override
         public void run() {
-            isEditorInitialized = true;
-            handleQueue();
+            Platform.runLater(() -> {
+                try {
+                    webView.getEngine().executeScript("CodeMirror;");
+                    webView.getEngine().executeScript(this.command);
+                    isEditorInitialized = true;
+                    executor.shutdown();
+                    executor = null;
+                    handleQueue();
+                } catch (Exception ex) {
+                    ; //Do nothing
+                }
+            });
         }
     }
 
     @Override
     public String getContent() {
-        return (String) fetchEditor().call("getValue");
+        return (String) webView.getEngine().executeScript("codeMirror.getValue();");
     }
 
     @Override
-    public void setContent(String newContent) {
-        fetchEditor().call("setValue", newContent);
+    public void setContent(String newContent) { //TODO escape content string, mainly double quotes and multi-line strings
+        Platform.runLater(() -> {
+            webView.getEngine().executeScript("codeMirror.setValue(\"" + newContent + "\");");
+        });
     }
 
     @Override
@@ -66,47 +84,37 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public boolean isReadOnly() {
-        return (Boolean) fetchEditor().call("getOption","readOnly");
+        return (Boolean) webView.getEngine().executeScript("codeMirror.getOption('readOnly');");
     }
 
     @Override
     public void setReadOnly(boolean readOnly) {
-        fetchEditor().call("setOption", "readOnly", readOnly);
-    }
-
-    @Override
-    public JSObject fetchEditor() {
-        Object editor = webEngine.executeScript("require('codeeditor').codeMirror;");
-        if(editor instanceof JSObject) {
-            return (JSObject) editor;
-        }
-        throw new IllegalStateException("CodeMirror not loaded.");
+        Platform.runLater(() -> {
+            webView.getEngine().executeScript("codeMirror.setOption('readOnly', " + readOnly + ");");
+        });
     }
 
     @Override
     public String getMode() {
-        return (String) fetchEditor().call("getOption", "mode");
+        return (String) webView.getEngine().executeScript("codeMirror.getOption('mode');");
     }
 
     @Override
     public void setMode(String mode) {
-        webEngine.executeScript("require('codeeditor').setMode('" + mode + "')");
+        Platform.runLater(() -> {
+            webView.getEngine().executeScript("setMode(\"" + mode + "\");");
+        });
     }
 
-    @Override
-    public void includeJSModules(String[] modules, Runnable runnable) {
-        //TODO test this
-        fetchCodeEditorObject().call("importJSModules", modules, runnable);
-    }
-
-    @Override
-    public JSObject fetchRequireJSObject() {
-        return (JSObject) webEngine.executeScript("require();");
-    }
+//    @Override
+//    public void includeJSModules(String[] modules, Runnable runnable) {
+//        //TODO test this
+//        //fetchCodeEditorObject().call("importJSModules", modules, runnable);
+//    }
 
     @Override
     public String getTheme() {
-        return (String) fetchEditor().call("getOption", "theme");
+        return (String) webView.getEngine().executeScript("codeMirror.getOption('theme');");
     }
 
     @Override
@@ -119,7 +127,10 @@ public class CodeMirrorEditor implements CodeEditor {
             }
             argument += cssFileArgument;
         }
-        webEngine.executeScript("require('codeeditor').setTheme(" +  argument + ");");
+        final String finalArg = argument;
+        Platform.runLater(() -> {
+            webView.getEngine().executeScript("setTheme(" + finalArg + ");");
+        });
     }
 
     @Override
@@ -136,14 +147,8 @@ public class CodeMirrorEditor implements CodeEditor {
         if(isEditorInitialized) {
             while(!queue.isEmpty()) {
                 Runnable runnable = queue.remove();
-                runnable.run();
+                Platform.runLater(runnable);
             }
         }
     }
-
-    private JSObject fetchCodeEditorObject() {
-        return (JSObject) webEngine.executeScript("require('codeeditor');");
-    }
-
-    private JSObject fetchWindow() { return (JSObject) webEngine.executeScript("window;"); }
 }
