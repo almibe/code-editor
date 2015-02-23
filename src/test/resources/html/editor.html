@@ -21,6 +21,7 @@ var codeMirror;
 function init() {
   codeMirror = CodeMirror(document.body);
   codeMirror.setOption("lineNumbers", true);
+  codeMirror.setOption("dragDrop", false);
   codeMirror.setOption("fullScreen", true);
   codeMirror.setOption("styleActiveLine", true);
   CodeMirror.modeURL = "codemirror/mode/%N/%N.js";
