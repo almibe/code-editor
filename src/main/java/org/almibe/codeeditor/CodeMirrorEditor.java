@@ -75,6 +75,19 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
+    public Position getCursorPosition() {
+        String position = (String) webView.getEngine().executeScript("");
+        return null;
+    }
+
+    @Override
+    public void setCursorPosition(Position position) {
+        Platform.runLater(() -> {
+            webView.getEngine().executeScript("");
+        });
+    }
+
+    @Override
     public boolean isEditorInitialized() {
         return isEditorInitialized;
     }

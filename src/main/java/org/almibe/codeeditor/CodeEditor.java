@@ -7,6 +7,8 @@ import java.net.URI;
 public interface CodeEditor {
     String getContent();
     void setContent(String newContent);
+    Position getCursorPosition();
+    void setCursorPosition(Position position);
     boolean isEditorInitialized();
     void init(URI indexPage, Runnable... runAfterLoading);
     Parent getWidget();
@@ -19,4 +21,9 @@ public interface CodeEditor {
     String getTheme();
     void setTheme(String theme, String... cssFile);
     void runWhenReady(Runnable runnable);
+
+    public interface Position {
+        int getLine();
+        int getCharacter();
+    }
 }
