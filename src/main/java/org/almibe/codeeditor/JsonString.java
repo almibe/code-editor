@@ -18,7 +18,8 @@ import java.io.IOException;
 * the License.
 */
 public class JsonString {
-    //this method has been slightly modified to return a String instead of accepting a write in the parameter list.
+    //This method has been slightly modified to return a String instead of accepting a write in the parameter list.
+    //Source: https://gwt.googlesource.com/gwt/+/master/dev/core/src/com/google/gwt/dev/json/JsonString.java
     public static String quote(String data) {
         StringBuilder writer = new StringBuilder();
         if (data == null) {
