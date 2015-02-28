@@ -19,7 +19,7 @@ import java.io.IOException;
 */
 public class JsonString {
     //this method has been slightly modified to return a String instead of accepting a write in the parameter list.
-    public static String write(String data) throws IOException {
+    public static String quote(String data) {
         StringBuilder writer = new StringBuilder();
         if (data == null) {
             writer.append("null");
