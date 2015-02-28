@@ -1,7 +1,5 @@
 package org.almibe.codeeditor;
 
-import java.io.IOException;
-
 /*
 * Copyright 2010 Google Inc.
 *
@@ -17,7 +15,7 @@ import java.io.IOException;
 * License for the specific language governing permissions and limitations under
 * the License.
 */
-public class JsonString {
+public class JsString {
     //This method has been slightly modified to return a String instead of accepting a write in the parameter list.
     //Source: https://gwt.googlesource.com/gwt/+/master/dev/core/src/com/google/gwt/dev/json/JsonString.java
     public static String quote(String data) {

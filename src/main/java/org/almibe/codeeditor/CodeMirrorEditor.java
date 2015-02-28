@@ -67,7 +67,7 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public void setContent(String newContent) {
-        String escapedContent = JsonString.quote(newContent);
+        String escapedContent = JsString.quote(newContent);
         Platform.runLater(() -> {
             webView.getEngine().executeScript("codeMirror.setValue(" + escapedContent + ");");
         });
