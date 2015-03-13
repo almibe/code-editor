@@ -7,6 +7,8 @@ import java.net.URI;
 public interface CodeEditor {
     String getContent();
     void setContent(String newContent);
+    boolean isClean();
+    void markClean();
     Position getCursorPosition();
     void setCursorPosition(Position position);
     boolean isEditorInitialized();
