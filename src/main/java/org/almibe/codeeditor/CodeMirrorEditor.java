@@ -74,6 +74,16 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
+    public boolean isClean() {
+        return (boolean) webView.getEngine().executeScript("codeMirror.isClean();");
+    }
+
+    @Override
+    public void markClean() {
+        webView.getEngine().executeScript("codeMirror.markClean();");
+    }
+
+    @Override
     public Position getCursorPosition() {
         String position = (String) webView.getEngine().executeScript("");
         return null;
