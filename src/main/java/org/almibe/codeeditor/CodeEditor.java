@@ -6,7 +6,7 @@ import java.net.URI;
 
 public interface CodeEditor {
     String getContent();
-    void setContent(String newContent);
+    void setContent(String newContent, boolean markClean);
     boolean isClean();
     void markClean();
     Position getCursorPosition();

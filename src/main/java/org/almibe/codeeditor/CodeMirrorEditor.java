@@ -66,10 +66,11 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void setContent(String newContent) {
+    public void setContent(String newContent, boolean markClean) {
         String escapedContent = JsString.quote(newContent);
         Platform.runLater(() -> {
             webView.getEngine().executeScript("codeMirror.setValue(" + escapedContent + ");");
+            if (markClean) { this.markClean(); }
         });
     }
 
@@ -159,12 +160,12 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public void runWhenReady(Runnable runnable) {
-        if(isEditorInitialized) {
-            runnable.run();
-        } else {
+//        if(isEditorInitialized) {
+//            runnable.run();
+//        } else {
             queue.add(runnable);
             handleQueue();
-        }
+//        }
     }
 
     private void handleQueue() {
