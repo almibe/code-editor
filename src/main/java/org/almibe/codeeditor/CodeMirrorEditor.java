@@ -49,10 +49,13 @@ public class CodeMirrorEditor implements CodeEditor {
                 try {
                     webView.getEngine().executeScript("CodeMirror;");
                     webView.getEngine().executeScript(this.command);
-                    isEditorInitialized = true;
                     executor.shutdown();
                     executor = null;
-                    handleQueue();
+                    while(!queue.isEmpty()) {
+                        Runnable runnable = queue.remove();
+                        Platform.runLater(runnable);
+                    }
+                    isEditorInitialized = true;
                 } catch (Exception ex) {
                     ; //Do nothing
                 }
