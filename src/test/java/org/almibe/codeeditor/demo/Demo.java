@@ -31,12 +31,12 @@ public class Demo extends Application {
         SplitPane sp = new SplitPane();
         sp.getItems().addAll(codeEditor.getWidget(), codeEditorRight.getWidget());
         codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri(),
-                () -> codeEditor.setContent("select * from T t where t.name = \"test\" limit 20;"),
+                () -> codeEditor.setContent("select * from T t where t.name = \"test\" limit 20;", true),
                 () -> codeEditor.setMode("text/x-sql"),
                 () -> codeEditor.setTheme("xq-light"));
 
         codeEditorRight.init(Paths.get("src/test/resources/html/editor.html").toUri(),
-                () -> codeEditorRight.setContent("select * from T t where t.name = \"test\" limit 20;"),
+                () -> codeEditorRight.setContent("select * from T t where t.name = \"test\" limit 20;", true),
                 () -> codeEditorRight.setMode("text/x-sql"),
                 () -> codeEditorRight.setTheme("xq-light"),
                 () -> codeEditorRight.setReadOnly(true));
@@ -91,7 +91,7 @@ public class Demo extends Application {
         Button setButton = new Button("Set Content");
         Button getButton = new Button("Get Content");
         setButton.setOnAction(event -> {
-            codeEditor.setContent(content.getText());});
+            codeEditor.setContent(content.getText(), true);});
         getButton.setOnAction(event -> {content.setText(codeEditor.getContent());});
         box.getChildren().addAll(content, setButton, getButton);
         return box;
