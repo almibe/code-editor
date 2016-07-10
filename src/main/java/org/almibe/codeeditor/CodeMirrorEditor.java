@@ -1,18 +1,17 @@
 package org.almibe.codeeditor;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
-    private boolean isEditorInitialized = false; //TODO make atomic var?
+    private AtomicBoolean isEditorInitialized = new AtomicBoolean(false);
     private final Queue<Runnable> queue = new LinkedBlockingQueue<>();
     private ScheduledExecutorService executor;
 
@@ -24,16 +23,11 @@ public class CodeMirrorEditor implements CodeEditor {
     public void init(Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
         try {
-            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror/editor.html").toURI().toString()); //TODO maybe use .toURI.toString() instead of toExternalFOrm
+            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror/editor.html").toURI().toString());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-        webView.getEngine().setOnError(new EventHandler<WebErrorEvent>() {
-            @Override
-            public void handle(WebErrorEvent event) {
-                throw new RuntimeException(event.getException());
-            }
-        });
+        webView.getEngine().setOnError(event -> { throw new RuntimeException(event.getException()); });
 
         executor = Executors.newSingleThreadScheduledExecutor();
         ScheduledFuture future = executor.scheduleWithFixedDelay(new Init(), 0, 100, TimeUnit.MILLISECONDS);
@@ -54,9 +48,9 @@ public class CodeMirrorEditor implements CodeEditor {
                         Runnable runnable = queue.remove();
                         Platform.runLater(runnable);
                     }
-                    isEditorInitialized = true;
+                    isEditorInitialized.set(true);
                 } catch (Exception ex) {
-                    ; //Do nothing
+                    //do nothing
                 }
             });
         }
@@ -101,7 +95,7 @@ public class CodeMirrorEditor implements CodeEditor {
 
     @Override
     public boolean isEditorInitialized() {
-        return isEditorInitialized;
+        return isEditorInitialized.get();
     }
 
     @Override
@@ -171,7 +165,7 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     private void handleQueue() {
-        if(isEditorInitialized) {
+        if(isEditorInitialized.get()) {
             while(!queue.isEmpty()) {
                 Runnable runnable = queue.remove();
                 Platform.runLater(runnable);
