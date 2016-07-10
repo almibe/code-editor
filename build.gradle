@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.dm.gradle:bundle:0.2'
+        classpath 'org.dm.gradle:bundle:0.8.5'
     }
 }
 
@@ -15,7 +15,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-version = '0.1.0'
+version = '0.2.0-SNAPSHOT'
 group = 'org.almibe'
 
 repositories {
@@ -23,11 +23,8 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.10'
-    //testCompile group: 'org.loadui', name: 'testFx', version: '3.1.2
 }
 
 bundle {
-    instruction 'Export-Package', 'org.almibe.codeeditor'
-    instruction 'Private-Package', '*'
+    instruction 'Export-Package', 'org.almibe.codeeditor.*'
 }

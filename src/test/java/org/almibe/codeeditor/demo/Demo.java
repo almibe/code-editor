@@ -3,17 +3,17 @@ package org.almibe.codeeditor.demo;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.almibe.codeeditor.CodeMirrorEditor;
 import org.almibe.codeeditor.CodeEditor;
-
-import java.nio.file.Paths;
+import org.almibe.codeeditor.CodeMirrorEditor;
 
 public class Demo extends Application {
     private final CodeEditor codeEditor = new CodeMirrorEditor();
@@ -30,12 +30,12 @@ public class Demo extends Application {
         primaryStage.setScene(scene);
         SplitPane sp = new SplitPane();
         sp.getItems().addAll(codeEditor.getWidget(), codeEditorRight.getWidget());
-        codeEditor.init(Paths.get("src/test/resources/html/editor.html").toUri(),
+        codeEditor.init(
                 () -> codeEditor.setContent("select * from T t where t.name = \"test\" limit 20;", true),
                 () -> codeEditor.setMode("text/x-sql"),
                 () -> codeEditor.setTheme("xq-light"));
 
-        codeEditorRight.init(Paths.get("src/test/resources/html/editor.html").toUri(),
+        codeEditorRight.init(
                 () -> codeEditorRight.setContent("select * from T t where t.name = \"test\" limit 20;", true),
                 () -> codeEditorRight.setMode("text/x-sql"),
                 () -> codeEditorRight.setTheme("xq-light"),

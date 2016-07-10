@@ -6,14 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.Queue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
@@ -26,9 +21,13 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void init(URI editorUri, Runnable... runAfterLoading) {
+    public void init(Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
-        webView.getEngine().load(editorUri.toString());
+        try {
+            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror-5.16.0/editor.html").toURI().toString()); //TODO maybe use .toURI.toString() instead of toExternalFOrm
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
         webView.getEngine().setOnError(new EventHandler<WebErrorEvent>() {
             @Override
             public void handle(WebErrorEvent event) {
