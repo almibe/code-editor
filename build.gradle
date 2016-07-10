@@ -3,13 +3,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.dm.gradle:bundle:0.8.5'
+        classpath 'org.dm.gradle:gradle-bundle-plugin:0.8'
     }
 }
 
-apply plugin: 'bundle'
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'org.dm.bundle'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'

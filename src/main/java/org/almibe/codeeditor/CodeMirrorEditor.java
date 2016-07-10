@@ -24,7 +24,7 @@ public class CodeMirrorEditor implements CodeEditor {
     public void init(Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
         try {
-            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror-5.16.0/editor.html").toURI().toString()); //TODO maybe use .toURI.toString() instead of toExternalFOrm
+            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror/editor.html").toURI().toString()); //TODO maybe use .toURI.toString() instead of toExternalFOrm
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
