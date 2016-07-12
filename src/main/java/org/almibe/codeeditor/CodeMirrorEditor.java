@@ -4,16 +4,20 @@ import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.web.WebView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 public class CodeMirrorEditor implements CodeEditor {
     private final WebView webView;
     private AtomicBoolean isEditorInitialized = new AtomicBoolean(false);
     private final Queue<Runnable> queue = new LinkedBlockingQueue<>();
     private ScheduledExecutorService executor;
+    private Function<String, List<String>> autoCompleteFunction = s -> new ArrayList<>();
 
     public CodeMirrorEditor() {
         webView = new WebView();
@@ -162,6 +166,16 @@ public class CodeMirrorEditor implements CodeEditor {
             queue.add(runnable);
             handleQueue();
 //        }
+    }
+
+    @Override
+    public void setAutoCompleteFunction(Function<String, List<String>> autoCompleteFunction) {
+        this.autoCompleteFunction = autoCompleteFunction;
+    }
+
+    @Override
+    public Function<String, List<String>> getAutoCompleteFunction() {
+        return this.autoCompleteFunction;
     }
 
     private void handleQueue() {
