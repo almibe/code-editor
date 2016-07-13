@@ -3,6 +3,7 @@ package org.almibe.codeeditor;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class CodeMirrorEditor implements CodeEditor {
     public void init(Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
         try {
-            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror/editor.html").toURI().toString());
+            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror/ac.html").toURI().toString());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -45,6 +46,11 @@ public class CodeMirrorEditor implements CodeEditor {
             Platform.runLater(() -> {
                 try {
                     webView.getEngine().executeScript("CodeMirror;");
+
+                    //TODO handle call back for autocompletion
+                    JSObject window = (JSObject) webView.getEngine().executeScript("window");
+                    window.setMember("injectedVariables", new AutoCompleteVariables());
+
                     webView.getEngine().executeScript(this.command);
                     executor.shutdown();
                     executor = null;
@@ -54,9 +60,15 @@ public class CodeMirrorEditor implements CodeEditor {
                     }
                     isEditorInitialized.set(true);
                 } catch (Exception ex) {
-                    //do nothing
+                    throw new RuntimeException(ex);
                 }
             });
+        }
+    }
+
+    public class AutoCompleteVariables {
+        List<String> match(String word) {
+            return autoCompleteFunction.apply(word);
         }
     }
 

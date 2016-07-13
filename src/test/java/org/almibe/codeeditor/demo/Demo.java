@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import org.almibe.codeeditor.CodeEditor;
 import org.almibe.codeeditor.CodeMirrorEditor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Demo extends Application {
     private final CodeEditor codeEditor = new CodeMirrorEditor();
     private final CodeEditor codeEditorRight = new CodeMirrorEditor();
@@ -29,6 +32,13 @@ public class Demo extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
         SplitPane sp = new SplitPane();
+
+        codeEditor.setAutoCompleteFunction(s -> {
+            List<String> a = new ArrayList<>();
+            a.add("Test testest");
+            return a;
+        });
+
         sp.getItems().addAll(codeEditor.getWidget(), codeEditorRight.getWidget());
         codeEditor.init(
                 () -> codeEditor.setContent("select * from T t where t.name = \"test\" limit 20;", true),
