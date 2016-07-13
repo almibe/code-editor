@@ -22,16 +22,16 @@
 var codeMirror;
 var injectedVariables;
 
-var orig = CodeMirror.hint.anyword;
+var initialAnyword = CodeMirror.hint.anyword;
 CodeMirror.hint.anyword = function(cm) {
-  var inner = orig(cm) || {from: cm.getCursor(), to: cm.getCursor(), list: []};
-  var currentWord = "" //TODO use inner.from and inner.to to get current word
+  var newAnyword = initialAnyword(cm) || {from: cm.getCursor(), to: cm.getCursor(), list: []};
+  var currentWord = cm.getRange(newAnyword.from, newAnyword.to)
   var matchingNames = [];
   if (injectedVariables) {
     matchingNames = JSON.parse(injectedVariables.match(currentWord))
   }
-  inner.list = matchingNames.concat(inner.list)
-  return inner;
+  newAnyword.list = matchingNames.concat(newAnyword.list)
+  return newAnyword;
 };
 
 function init() {

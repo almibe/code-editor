@@ -17,6 +17,7 @@ import org.almibe.codeeditor.CodeMirrorEditor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Demo extends Application {
     private final CodeEditor codeEditor = new CodeMirrorEditor();
@@ -35,8 +36,9 @@ public class Demo extends Application {
 
         codeEditor.setAutoCompleteFunction(s -> {
             List<String> a = new ArrayList<>();
-            a.add("Test testest");
-            return a;
+            a.add("when");
+            List<String> result = a.stream().filter(value -> value.startsWith(s)).collect(Collectors.toList());
+            return result;
         });
 
         sp.getItems().addAll(codeEditor.getWidget(), codeEditorRight.getWidget());

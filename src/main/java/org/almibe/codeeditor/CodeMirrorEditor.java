@@ -44,7 +44,6 @@ public class CodeMirrorEditor implements CodeEditor {
                 try {
                     webView.getEngine().executeScript("CodeMirror;");
 
-                    //TODO handle call back for autocompletion
                     JSObject window = (JSObject) webView.getEngine().executeScript("window");
                     window.setMember("injectedVariables", new AutoCompleteVariables());
 
