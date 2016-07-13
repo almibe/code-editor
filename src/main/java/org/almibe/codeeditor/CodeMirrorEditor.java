@@ -5,10 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
@@ -60,15 +57,26 @@ public class CodeMirrorEditor implements CodeEditor {
                     }
                     isEditorInitialized.set(true);
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    //throw new RuntimeException(ex); //usually not needed
                 }
             });
         }
     }
 
     public class AutoCompleteVariables {
-        List<String> match(String word) {
-            return autoCompleteFunction.apply(word);
+        public String match(String word) {
+            List<String> resultList = autoCompleteFunction.apply(word);
+            StringBuilder jsonResult = new StringBuilder("[");
+            Iterator<String> iterator = resultList.iterator();
+            while(iterator.hasNext()) {
+                String value = iterator.next();
+                jsonResult.append(JsString.quote(value));
+                if (iterator.hasNext()) {
+                    jsonResult.append(",");
+                }
+            }
+            jsonResult.append("]");
+            return jsonResult.toString();
         }
     }
 

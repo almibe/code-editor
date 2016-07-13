@@ -26,7 +26,10 @@ var orig = CodeMirror.hint.anyword;
 CodeMirror.hint.anyword = function(cm) {
   var inner = orig(cm) || {from: cm.getCursor(), to: cm.getCursor(), list: []};
   var currentWord = "" //TODO use inner.from and inner.to to get current word
-  var matchingNames = injectedVariables && injectedVariables.match(currentWord) || []
+  var matchingNames = [];
+  if (injectedVariables) {
+    matchingNames = JSON.parse(injectedVariables.match(currentWord))
+  }
   inner.list = matchingNames.concat(inner.list)
   return inner;
 };
