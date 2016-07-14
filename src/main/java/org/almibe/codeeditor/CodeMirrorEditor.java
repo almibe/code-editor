@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,14 +23,12 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void init(Runnable... runAfterLoading) {
+    public void init(URI editorUri, Runnable... runAfterLoading) {
         queue.addAll(Arrays.asList(runAfterLoading));
-        try {
-            webView.getEngine().load(CodeMirrorEditor.class.getResource("codemirror/ac.html").toURI().toString());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        webView.getEngine().setOnError(event -> { throw new RuntimeException(event.getException()); });
+        webView.getEngine().load(editorUri.toString());
+        webView.getEngine().setOnError(event -> {
+            throw new RuntimeException(event.getException());
+        });
 
         executor = Executors.newSingleThreadScheduledExecutor();
         ScheduledFuture future = executor.scheduleWithFixedDelay(new Init(), 0, 100, TimeUnit.MILLISECONDS);
