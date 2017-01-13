@@ -1,6 +1,7 @@
 buildscript {
     repositories {
-        mavenCentral()
+        mavenLocal()
+        jcenter()
     }
     dependencies {
         classpath 'org.dm.gradle:gradle-bundle-plugin:0.8'
@@ -21,7 +22,8 @@ version = '0.1.0'
 group = 'org.almibe'
 
 repositories {
-    mavenCentral()
+    mavenLocal()
+    jcenter()
 }
 
 dependencies {
