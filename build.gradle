@@ -4,9 +4,11 @@ buildscript {
     }
     dependencies {
         classpath 'org.dm.gradle:gradle-bundle-plugin:0.8'
+        classpath 'org.almibe:easy-pub-plugin:0.3.0'
     }
 }
 
+apply plugin: 'org.almibe.easypubplugin'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'org.dm.bundle'
@@ -15,7 +17,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-version = '0.2.0-SNAPSHOT'
+version = '0.1.0'
 group = 'org.almibe'
 
 repositories {
