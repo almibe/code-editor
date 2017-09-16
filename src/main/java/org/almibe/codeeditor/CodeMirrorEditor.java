@@ -23,15 +23,20 @@ public class CodeMirrorEditor implements CodeEditor {
     }
 
     @Override
-    public void init(URI editorUri, Runnable... runAfterLoading) {
-        queue.addAll(Arrays.asList(runAfterLoading));
-        webView.getEngine().load(editorUri.toString());
-        webView.getEngine().setOnError(event -> {
-            throw new RuntimeException(event.getException());
-        });
+    public void init(Runnable... runAfterLoading) {
+        try {
+            final URI editorUri = CodeMirrorEditor.class.getResource("ac.html").toURI();
+            queue.addAll(Arrays.asList(runAfterLoading));
+            webView.getEngine().load(editorUri.toString());
+            webView.getEngine().setOnError(event -> {
+                throw new RuntimeException(event.getException());
+            });
 
-        executor = Executors.newSingleThreadScheduledExecutor();
-        ScheduledFuture future = executor.scheduleWithFixedDelay(new Init(), 0, 100, TimeUnit.MILLISECONDS);
+            executor = Executors.newSingleThreadScheduledExecutor();
+            ScheduledFuture future = executor.scheduleWithFixedDelay(new Init(), 0, 100, TimeUnit.MILLISECONDS);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public class Init implements Runnable {

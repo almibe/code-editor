@@ -2,7 +2,6 @@ package org.almibe.codeeditor;
 
 import javafx.scene.Parent;
 
-import java.net.URI;
 import java.util.List;
 import java.util.function.Function;
 
@@ -14,7 +13,7 @@ public interface CodeEditor {
     Position getCursorPosition();
     void setCursorPosition(Position position);
     boolean isEditorInitialized();
-    void init(URI editorUri, Runnable... runAfterLoading);
+    void init(Runnable... runAfterLoading);
     Parent getWidget();
     boolean isReadOnly();
     void setReadOnly(boolean readOnly);

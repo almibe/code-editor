@@ -43,13 +43,11 @@ public class Demo extends Application {
 
         sp.getItems().addAll(codeEditor.getWidget(), codeEditorRight.getWidget());
         codeEditor.init(
-                Demo.class.getResource("ac.html").toURI(),
                 () -> codeEditor.setContent("select * from T t where t.name = \"test\" limit 20;", true),
                 () -> codeEditor.setMode("text/x-sql"),
                 () -> codeEditor.setTheme("xq-light"));
 
         codeEditorRight.init(
-                Demo.class.getResource("ac.html").toURI(),
                 () -> codeEditorRight.setContent("select * from T t where t.name = \"test\" limit 20;", true),
                 () -> codeEditorRight.setMode("text/x-sql"),
                 () -> codeEditorRight.setTheme("xq-light"),
