@@ -25,7 +25,7 @@ public class CodeMirrorEditor implements CodeEditor {
     @Override
     public void init(Runnable... runAfterLoading) {
         try {
-            final URI editorUri = CodeMirrorEditor.class.getResource("ac.html").toURI();
+            final URI editorUri = CodeMirrorEditor.class.getResource("editor.html").toURI();
             queue.addAll(Arrays.asList(runAfterLoading));
             webView.getEngine().load(editorUri.toString());
             webView.getEngine().setOnError(event -> {
